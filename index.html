@@ -6,27 +6,78 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
   </head>
   <body>
+    
     <button id="conectar-button">Conectar Wallet Metamask</button>
     <!--BOTÓN DE TRASNFERENCIA DE PRUEBA
     <button id="transferencia-button">Transferencia</button>
     <button id="conexion-button">Conectar al contrato</button>-->
-    <input type="text" id="inputToken" placeholder="Dirección del Token"> 
-    <input type="number" id="inputAmountToken" placeholder="Unidades a comercializar (con decimales)">
+    <label for="cars">Stablecoin en venta:</label>
+
+    <select name="plan" id="inputToken">
+                <option value="none" selected disabled hidden>Stablecoin en venta:</option>
+                <option value="0xA2025B15a1757311bfD68cb14eaeFCc237AF5b43">USDC (...5b43)</option>
+                <option value="0xC2C527C0CACF457746Bd31B2a698Fe89de2b6d49">USDT (...6d49) </option>
+                <option value="0xa7c3Bf25FFeA8605B516Cf878B7435fe1768c89b">BUSD (...c89b) </option>
+                <option value="0x75Ab5AB1Eef154C0352Fc31D2428Cef80C7F8B33">DAI (...8B33) </option>
+            </select>
+    <label name="inputAmountToken">Unidades a comercializar:</label>
+    <input type="number" id="inputAmountToken" name="inputAmountToken" placeholder="Unidades a comercializar">
+    <label name="inputComisions">Comisión 0.1%:</label>
+    <input type="number" name="inputComision" id="inputComision" placeholder="Comisión 0.1%" disabled>
+    <label name="inputTotalScrow">Total a depositar en Scrow:</label>
+    <input type="number" name="inputTotalScrow" id="inputTotalScrow" placeholder="Total Scrow" disabled>
+    <label name="inputTotalScrowWEI">Total a depositar en Scrow (en WEI):</label>
+    <input type="number" name="inputTotalScrowWEI" id="inputTotalScrowWEI" placeholder="Total Scrow en WEI" disabled>
     <p id="confirmacionAprobar"></p> 
     <button id="aprobar-button">Aprobar Uso de Tokens</button>
     
     <input type="text" id="inputSeller" placeholder="Dirección que recibirá los tokens aprobados"> 
-    <input type="number" id="inputIDTransaccion" placeholder="Escriba un ID único para su transacción"> 
+    <label name="inputIDTransaccion">ID único para su transacción:</label>
+    <input type="number" name="inputIDTransaccion" id="inputIDTransaccion" value=""> 
     <p id="confirmacionEnvio"></p> 
     <button id="envio-tokens-button">Envío Tokens al SmartContract</button>
 
-    <input type="number" id="inputIDTransaccionLiberar" placeholder="ID de transacción a liberar">
+    <label name="inputIDTransaccionLiberar">ID de transacción a liberar:</label>
+    <input type="number" name="inputIDTransaccionLiberar" id="inputIDTransaccionLiberar" placeholder="ID de transacción a liberar">
     <p id="confirmacionRelease"></p> 
     <button id="release-button">Finalizar Escrow</button>
+
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var input = document.querySelector("input[name=inputAmountToken]");
+        input.addEventListener('keyup', function() {
+            var content1Input = document.querySelector("input[name=inputComision]");
+            content1Input.value = this.value*0.1/100;
+        });
+        input.addEventListener('keyup', function() {
+            var content2Input = document.querySelector("input[name=inputTotalScrow]");
+            content2Input.value = Number(this.value)+Number(this.value*0.1/100);
+        });
+        input.addEventListener('keyup', function() {
+            var content3Input = document.querySelector("input[name=inputTotalScrowWEI]");
+            content3Input.value = (Number(this.value)+Number(this.value*0.1/100))* 10 ** 6;
+        });
+
+
+    });
+
+    function random() {
+        var content4Input = document.querySelector("input[name=inputIDTransaccion]");
+        valorDefecto = document.getElementById("inputIDTransaccion").innerHTML = Math.floor(Math.random() * 10000);
+        content4Input.value = valorDefecto
+    }
+
+    window.onload = random;
+
+    //document.getElementById("inputIDTransaccion").innerHTML = Number(Math.floor(Math.random() * 100));
+    
+
+
+
+
     let account;
     let direccionToken = document.getElementById("inputToken").value;
-    let cantidadAprobada = document.getElementById("inputAmountToken").value;
+    let cantidadAprobada = document.getElementById("inputTotalScrowWEI").value;
     let direccionDestino = document.getElementById("inputSeller").value;
     let idTransaccion = document.getElementById("inputIDTransaccion").value;
 
@@ -575,14 +626,14 @@
     document.getElementById('aprobar-button').addEventListener('click', event =>{
         let button = event.target;
         direccionToken = document.getElementById("inputToken").value;
-        cantidadAprobada = document.getElementById("inputAmountToken").value;
+        cantidadAprobada = document.getElementById("inputTotalScrowWEI").value;
         const connectContract = async () => {
             
             try {
                 await window.ethereum.enable();
 
                 // Obtén la dirección del contrato
-                const contractAddress = '0xA2025B15a1757311bfD68cb14eaeFCc237AF5b43'; //USDC
+                const contractAddressNO = '0xA2025B15a1757311bfD68cb14eaeFCc237AF5b43'; //USDC
                 const parametr = '0x1126281AD8af558186FCd930267a149252da57e1'; //CONTRATO PAYDECEESCROW
 
                 const contractABI = [
@@ -1828,6 +1879,19 @@
         }
         releaseContract();
     });
+
+
+    // INICIO COMISION DE CONTRATO ******************************************************************************************************************************
+
+     
+    document.addEventListener('DOMContentLoaded', function() {
+    var input = document.getElementById("select[name=inputToken]");
+    input.addEventListener('keyup', function() {
+        var content1Input = document.querySelector("input[name=inputComision]");
+        content1Input.value = this.value;
+    });
+    });
+
 
 
     </script>  
