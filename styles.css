@@ -35,6 +35,9 @@ select {
   width: 350px;
   margin-bottom: 8px;
 }
+select {
+  width: 365px;
+}
 p {
   color: green;
   margin: 0;
