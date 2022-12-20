@@ -24,10 +24,10 @@
     <input type="number" id="inputAmountToken" name="inputAmountToken" placeholder="Unidades a comercializar">
     <label name="inputComisions">Comisión 0.1%:</label>
     <input type="number" name="inputComision" id="inputComision" placeholder="Comisión 0.1%" disabled>
-    <label name="inputTotalScrow">Total a depositar en Scrow:</label>
-    <input type="number" name="inputTotalScrow" id="inputTotalScrow" placeholder="Total Scrow" disabled>
-    <label name="inputTotalScrowWEI">Total a depositar en Scrow (en WEI):</label>
-    <input type="number" name="inputTotalScrowWEI" id="inputTotalScrowWEI" placeholder="Total Scrow en WEI" disabled>
+    <label name="inputTotalScrow">Total a depositar en Escrow:</label>
+    <input type="number" name="inputTotalScrow" id="inputTotalScrow" placeholder="Total Escrow" disabled>
+    <label name="inputTotalScrowWEI" style="display:none">Total a depositar en Escrow (en WEI):</label>
+    <input type="number" name="inputTotalScrowWEI" id="inputTotalScrowWEI" placeholder="Total Scrow en WEI" style="display:none">
     <p id="confirmacionAprobar"></p> 
     <button id="aprobar-button">Aprobar Uso de Tokens</button>
     
@@ -63,7 +63,7 @@
 
     function random() {
         var content4Input = document.querySelector("input[name=inputIDTransaccion]");
-        valorDefecto = document.getElementById("inputIDTransaccion").innerHTML = Math.floor(Math.random() * 10000);
+        valorDefecto = document.getElementById("inputIDTransaccion").innerHTML = Math.floor(Math.random() * 100000);
         content4Input.value = valorDefecto
     }
 
